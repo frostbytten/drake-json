@@ -1,0 +1,19 @@
+{
+    "firstName": "Duke",
+    "lastName": "Java",
+    "age": 18 ,
+    "streetAddress": "100 Internet Dr",
+    "city": "JavaTown",
+    "state": "JA",
+    "postalCode": "12345",
+    "invalid?" : "δ",
+    "phoneNumbers": [
+        { "Mobile": "111-111-1111" },
+        { "Home": "222-222-2222" }
+    ],
+    "escape" : "\n\tThere's something here\"HELLO\"\u00A7",
+    "newNum" : 1.07e6,
+    "check" : false,
+    "passed": true,
+    "nullable": null
+}

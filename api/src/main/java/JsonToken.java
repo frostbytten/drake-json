@@ -1,0 +1,29 @@
+package org.agmip.data.json;
+
+public enum JsonToken {
+  OBJECT_NAME,
+  VALUE_STRING,
+  VALUE_NUMBER,
+  VALUE_BOOLEAN,
+  VALUE_NULL,
+  START_OBJECT,
+  END_OBJECT,
+  START_ARRAY,
+  END_ARRAY,
+  UNKNOWN,
+}
+
+/*
+  UNKNOWN,
+  STRING,
+  LONG,
+  NUMBER,
+  BIGNUMBER,
+  BOOLEAN,
+  NULL,
+  START_OBJECT,
+  END_OBJECT,
+  START_ARRAY,
+  END_ARRAY,
+  EOF
+*/

@@ -1,0 +1,25 @@
+buildscript {
+  repositories { jcenter() }
+  dependencies {
+    classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.3'
+  }
+}
+
+subprojects {
+  apply plugin: 'java'
+  group = 'org.agmip.lib'
+  version = '1.0.0-SNAPSHOT'
+}
+
+project(':example') {
+  apply plugin: 'application'
+  apply plugin: 'com.github.johnrengelman.shadow'
+  dependencies {
+    compile project(':api')
+  }
+  mainClassName = "org.agmip.example.drake.Main"
+}
+
+task wrapper(type: Wrapper) {
+  jarFile = '.gradlew/gradle-wrapper.jar'
+}
