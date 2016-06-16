@@ -19,6 +19,15 @@ subprojects {
   apply plugin: 'java'
   group = 'org.agmip.lib'
   version = '1.0.0-SNAPSHOT'
+  repositories {
+    jcenter()
+  }
+}
+
+project(':api') {
+  dependencies {
+    compile 'io.netty:netty-buffer:4.1.1.Final'
+  }
 }
 
 project(':example') {
