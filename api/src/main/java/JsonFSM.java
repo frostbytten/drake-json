@@ -25,12 +25,16 @@ public class JsonFSM {
   public enum Event {
     START_OBJECT,
     READ_OBJECT_SEPARATOR,
+    WRITE_OBJECT_SEPARATOR,
     END_OBJECT,
     START_ARRAY,
     END_ARRAY,
     READ_VALUE_SEPARATOR,
+    WRITE_VALUE_SEPARATOR,
     READ_STRING,
+    WRITE_STRING,
     READ_VALUE,
+    WRITE_VALUE,
   }
 
   protected Deque<State> stack = new ArrayDeque<>();
@@ -86,6 +90,7 @@ public class JsonFSM {
         stack.add(State.WAITING_FOR_OBJECT_NAME);
         break;
       case READ_OBJECT_SEPARATOR:
+      case WRITE_OBJECT_SEPARATOR:
         if (current == State.OBJECT_NAME_READ) {
           this.swap(State.WAITING_FOR_OBJECT_VALUE);
         } else {
@@ -131,6 +136,7 @@ public class JsonFSM {
         }
         break;
       case READ_VALUE_SEPARATOR:
+      case WRITE_VALUE_SEPARATOR:
         switch (current) {
           case OBJECT_VALUE_READ:
             this.swap(State.WAITING_FOR_OBJECT_NAME);
@@ -143,6 +149,7 @@ public class JsonFSM {
         }
         break;
       case READ_STRING:
+      case WRITE_STRING:
         switch (current) {
           case WAITING_FOR_OBJECT_NAME:
             this.swap(State.OBJECT_NAME_READ);
@@ -164,6 +171,7 @@ public class JsonFSM {
         }
         break;
       case READ_VALUE:
+      case WRITE_VALUE:
         switch (current) {
           case WAITING_FOR_OBJECT_VALUE:
             this.swap(State.OBJECT_VALUE_READ);

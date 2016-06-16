@@ -23,7 +23,7 @@ public class JsonParser {
   private String current;
 
   private JsonParser(Builder builder) throws IOException {
-    this.buffer = builder.json.getStore().duplicate();
+    this.buffer = builder.json.store().duplicate();
     this.debugMode = builder.debug;
     //    this.debugTheStack = builder.debugStack;
     this.fsm = builder.sharedFSM.orElse(new JsonFSM());
@@ -272,7 +272,7 @@ public class JsonParser {
     return t;
   }
 
-  public int getMaxDepth() throws IOException {
+  public int maxDepth() throws IOException {
     if (maxDepth != -1) {
       return maxDepth;
     }
@@ -295,11 +295,7 @@ public class JsonParser {
     buffer.rewind();
   }
 
-  public ByteBuffer getBuffer() {
-    return this.buffer;
-  }
-
-  public int getDepth() {
+  public int depth() {
     return this.currentDepth;
   }
 
@@ -321,6 +317,19 @@ public class JsonParser {
 
   public boolean getAsBoolean() {
     return Boolean.parseBoolean(current);
+  }
+
+  protected JsonFSM fsm() {
+    return this.fsm;
+  }
+
+  protected ByteBuffer buffer() {
+    return this.buffer;
+  }
+
+  public void close() {
+    this.buffer = null;
+    this.fsm = null;
   }
 
   private void debugValue(String value) {

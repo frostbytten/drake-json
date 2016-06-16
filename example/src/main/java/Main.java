@@ -8,8 +8,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.agmip.data.json.Json;
+import org.agmip.data.json.JsonGenerator;
 import org.agmip.data.json.JsonParser;
 import org.agmip.data.json.JsonToken;
+
 
 public class Main {
   public static void main(String[] args) {
@@ -52,6 +54,17 @@ public class Main {
     }
     Json json = Json.load(jsonFile);
     System.out.println("File: " + jsonFile.toString() + " [" + json.size() + "]");
+    JsonGenerator g = new JsonGenerator.Builder(json).build();
+    g.startArray();
+    for(int i=0; i < 180000; i++) {
+    g.startObject().writeMember("abc", "123").writeName("def").startObject().writeName("ghi");
+    g.startArray().writeValue("jkl").writeValue("mno").endArray().endObject();
+    g.writeMember("pqr", 456);
+    g.endObject();
+    }
+    g.endArray();
+    json.sync();
+    json.close();
   }
 
   public static void parse(String fileName) throws IOException {
@@ -60,11 +73,14 @@ public class Main {
     JsonParser p = new JsonParser.Builder(json).build();
     JsonToken prev = JsonToken.UNKNOWN;
     System.out.println("Parser in debug mode: " + p.isDebug());
+    long z=0;
     while (p.hasNext()) {
+      z++;
+      System.out.print(z + ". ");
       JsonToken t = p.next();
       switch( t ) {
       case OBJECT_NAME:
-        for (int i=0; i < p.getDepth()-1; i++) {
+        for (int i=0; i < p.depth()-1; i++) {
           System.out.print("\t");
         }
         System.out.print(p.get() + ": ");
@@ -86,7 +102,7 @@ public class Main {
         if (prev == JsonToken.OBJECT_NAME) {
           System.out.println();
         }
-        int d = p.getDepth();
+        int d = p.depth();
         if (d == 4) {
           System.out.print("--SKIPPED--");
           p.skip();

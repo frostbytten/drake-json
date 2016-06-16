@@ -2,3 +2,4 @@
 build/
 agmip*.json
 IDEA
+.syntastic*
